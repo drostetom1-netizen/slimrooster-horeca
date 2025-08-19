@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <div class="card p-4">
+            <h2 class="mb-3">Registreren</h2>
+            <form method="post">
+                <div class="mb-3">
+                    <label class="form-label">Gebruikersnaam</label>
+                    <input type="text" name="username" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Wachtwoord</label>
+                    <input type="password" name="password" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Rol</label>
+                    <select name="role" class="form-select" required onchange="document.getElementById('restSelect').style.display = this.value=='employee' ? 'block' : 'none';">
+                        <option value="employee">Werknemer</option>
+                        <option value="restaurant">Restaurant</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                <div class="mb-3" id="restSelect" style="display:block;">
+                    <label class="form-label">Restaurant</label>
+                    <select name="restaurant_id" class="form-select">
+                        {% for rid, r in restaurants.items() %}
+                            <option value="{{ rid }}">{{ r.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button class="btn btn-success w-100" type="submit">Registreren</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    // Hide restaurant select if not employee
+    document.querySelector("select[name=role]").addEventListener("change", function(){
+        document.getElementById("restSelect").style.display = this.value=='employee' ? 'block' : 'none';
+    });
+</script>
+{% endblock %}

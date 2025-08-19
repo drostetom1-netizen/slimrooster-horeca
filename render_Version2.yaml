@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: personeelsplanner
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: bash start.sh

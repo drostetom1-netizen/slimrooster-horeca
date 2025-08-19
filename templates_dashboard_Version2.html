@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card p-4">
+            <h2 class="mb-3">Welkom, {{ username }}!</h2>
+            <p><strong>Rol:</strong> {{ role|capitalize }}</p>
+            {% if role == "employee" %}
+                <a class="btn btn-info mb-2" href="{{ url_for('availability') }}">Mijn beschikbaarheid</a>
+                <a class="btn btn-primary mb-2" href="{{ url_for('view_roster', date=(now().strftime('%Y-%m-%d'))) }}">Mijn rooster vandaag</a>
+            {% elif role == "restaurant" or role == "admin" %}
+                <form class="row g-3" method="get" action="{{ url_for('view_roster', date=(now().strftime('%Y-%m-%d'))) }}">
+                    <div class="col-auto">
+                        <input type="date" name="date" value="{{ now().strftime('%Y-%m-%d') }}" class="form-control">
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-primary" type="submit">Rooster bekijken</button>
+                    </div>
+                </form>
+                <form class="row g-3 mt-2" method="get" action="{{ url_for('generate_roster_page', date=(now().strftime('%Y-%m-%d'))) }}">
+                    <div class="col-auto">
+                        <input type="date" name="date" value="{{ now().strftime('%Y-%m-%d') }}" class="form-control">
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-warning" type="submit">Rooster genereren</button>
+                    </div>
+                </form>
+            {% endif %}
+            {% if role == "admin" %}
+                <hr>
+                <a class="btn btn-success" href="{{ url_for('manage_restaurants') }}">Restaurants beheren</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
